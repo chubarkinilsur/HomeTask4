@@ -1,9 +1,19 @@
 import java.lang.reflect.Field;
 import java.util.*;
 
+/**домашнее задание №4 для группы stc21
+ * @author Чубаркин Ильсур
+ */
 public class HomeTask4 {
 
-
+    /**
+     * метод реализован согласно заданию
+     * @param object объект для обработки
+     * @param fieldsToCleanup коллекция String для обнуления полей
+     * @param fieldsToOutput коллекция String для вывода на консоль
+     * @return возвращяет строку согласно заданию
+     * @throws IllegalAccessException вслучае отсутствия наименовая полей в коллекциях fieldsToCleanup,fieldsToOutput выбрасывает исключение.
+     */
     public static String cleanup(Object object, Set<String> fieldsToCleanup, Set<String> fieldsToOutput) throws IllegalAccessException {
         Class<?> clazz = object.getClass();
 
