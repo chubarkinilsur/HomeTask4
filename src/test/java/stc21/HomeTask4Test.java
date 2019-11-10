@@ -1,3 +1,8 @@
+package stc21;
+
+import org.junit.jupiter.api.Test;
+
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -6,9 +11,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HomeTask4Test {
 
-    @org.junit.jupiter.api.Test
-    void cleanup() throws IllegalAccessException {
-        Test t = new Test("Surik", true, 32, "5707", 86.6, 182.4f);
+    @Test
+    void cleanup() throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        MyTestClass t = new MyTestClass("Surik", true, 32, "5707", 86.6, 182.4f);
         Set<String> fieldsToCleanup = new HashSet<String>();
         fieldsToCleanup.add("weight");
         fieldsToCleanup.add("height");
@@ -41,7 +46,7 @@ class HomeTask4Test {
     }
 }
 
-class Test {
+class MyTestClass {
     String name = "Ilsur";
     boolean male;
     int age;
@@ -49,7 +54,7 @@ class Test {
     double weight;
     float height;
 
-    Test(String name, boolean male, int age, String pas, double weight, float height) {
+    MyTestClass(String name, boolean male, int age, String pas, double weight, float height) {
         this.name = name;
         this.male = male;
         this.age = age;

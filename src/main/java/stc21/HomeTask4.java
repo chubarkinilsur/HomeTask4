@@ -1,20 +1,26 @@
+package stc21;
+
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-/**домашнее задание №4 для группы stc21
+/**
+ * домашнее задание №4 для группы stc21
+ *
  * @author Чубаркин Ильсур
  */
 public class HomeTask4 {
 
     /**
      * метод реализован согласно заданию
-     * @param object объект для обработки
+     *
+     * @param object          объект для обработки
      * @param fieldsToCleanup коллекция String для обнуления полей
-     * @param fieldsToOutput коллекция String для вывода на консоль
+     * @param fieldsToOutput  коллекция String для вывода на консоль
      * @return возвращяет строку согласно заданию
      * @throws IllegalAccessException вслучае отсутствия наименовая полей в коллекциях fieldsToCleanup,fieldsToOutput выбрасывает исключение.
      */
-    public static String cleanup(Object object, Set<String> fieldsToCleanup, Set<String> fieldsToOutput) throws IllegalAccessException {
+    public static String cleanup(Object object, Set<String> fieldsToCleanup, Set<String> fieldsToOutput) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         Class<?> clazz = object.getClass();
 
         Field[] declaredFields = clazz.getDeclaredFields();
@@ -57,7 +63,6 @@ public class HomeTask4 {
             }
             if (fieldsToOutput.contains(field.getName())) {
                 k++;
-                //toConsole+=field.get(object);
                 switch (typeName) {
                     case ("int"):
                         toConsole.append(String.valueOf(field.getInt(object)));
@@ -96,15 +101,17 @@ public class HomeTask4 {
             for (Object key : map.keySet()) {
                 if (fieldsToCleanup.contains(key)) {
                     k++;
-                    ((Map) object).remove(key);
+                    clazz.getMethod("remove", Object.class).invoke(object, key);
                 }
                 if (fieldsToOutput.contains(key)) {
                     k++;
-                    toConsole.append(((Map) object).get(key));
+                    toConsole.append(clazz.getMethod("get", Object.class).invoke(object, key));
                 }
             }
         }
-        if (k == 0) throw new IllegalArgumentException("There is no sush fields");
+        if (k == 0) {
+            throw new IllegalArgumentException("There is no sush fields");
+        }
         return toConsole.toString();
 
     }
