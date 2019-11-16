@@ -1,19 +1,27 @@
 package stc21;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class HomeTask4Test {
 
+    @BeforeEach
+    void setUp() {
+    }
+
     @Test
-    void cleanup() throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        MyTestClass t = new MyTestClass("Surik", true, 32, "5707", 86.6, 182.4f);
+    void cleanupObject() throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        HomeTask4 ht4Class = new HomeTask4();
+        MyTestClass testClass = new MyTestClass("Surik", true, 32, "5707", 86.6, 182.4f);
         Set<String> fieldsToCleanup = new HashSet<String>();
         fieldsToCleanup.add("weight");
         fieldsToCleanup.add("height");
@@ -22,32 +30,45 @@ class HomeTask4Test {
         fieldsToOutput.add("name");
         fieldsToOutput.add("male");
         fieldsToOutput.add("age");
-        String cleanup = HomeTask4.cleanup(t, fieldsToCleanup, fieldsToOutput);
+        String cleanup = ht4Class.cleanup(testClass, fieldsToCleanup, fieldsToOutput);
         assertEquals("Suriktrue32", cleanup);
-        assertEquals("Surik", t.name);
-        assertTrue(t.male);
-        assertEquals(32, t.age);
-        assertNull(t.pas);
-        assertEquals(0.0, t.weight);
-        assertEquals(0f, t.height);
+        assertEquals("Surik", testClass.name);
+        assertTrue(testClass.male);
+        assertEquals(32, testClass.age);
+        assertNull(testClass.pas);
+        assertEquals(0.0, testClass.weight);
+        assertEquals(0f, testClass.height);
+
+    }
+
+    @Test
+    @DisplayName("Throw illegalArgumentException")
+    public void cleanExc() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new HomeTask4().cleanup("Hello", new HashSet<>(), new TreeSet<>()));
+    }
+
+    @Test
+    public void cleanMap() throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         HashMap map = new HashMap();
         map.put("key1", "value1");
         map.put("key2", "value2");
         map.put("key3", "value3");
         map.put("key4", "value4");
+        Set<String> fieldsToCleanup = new HashSet<String>();
+        Set<String> fieldsToOutput = new HashSet<String>();
         fieldsToCleanup.add("key2");
         fieldsToOutput.add("key3");
         fieldsToOutput.add("key4");
-        String cleanup2 = HomeTask4.cleanup(map, fieldsToCleanup, fieldsToOutput);
+        String cleanup2 = new HomeTask4().cleanup(map, fieldsToCleanup, fieldsToOutput);
         assertEquals(3, map.size());
         assertEquals("value3value4", cleanup2);
         assertFalse(map.containsKey("key2"));
-        assertThrows(IllegalArgumentException.class, () -> HomeTask4.cleanup("Hello", fieldsToCleanup, fieldsToOutput));
     }
 }
 
 class MyTestClass {
-    String name = "Ilsur";
+    String name;
     boolean male;
     int age;
     String pas;
